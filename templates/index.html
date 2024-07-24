@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQLite with Flask</title>
+</head>
+<body>
+    <h1>Records</h1>
+    <ul>
+        {% for row in rows %}
+            <li>{{ row[1] }} : ({{ row[2] }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
