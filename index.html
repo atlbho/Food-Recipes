@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Recipe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section id="home">
+        <nav>
+            <div class="logo">
+                <img src="logo.JPG" alt="Logo">
+            </div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#recipes">Recipes</a></li>
+            </ul>
+            <form class="search-bar" action="/search" method="GET">
+                <input type="text" name="query" placeholder="Search recipes...">
+                <button type="submit">Search</button>
+            </form>
+        </nav>
+        
+        <div id="header-img">
+            <img src="AshaGrilledChickenSalad_RECIPE_070523_56498.webp" class="responsive-image" alt="Grilled Chicken Salad">
+            <div class="welcome-text">Food Recipe</div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h1>About</h1>
+        <p>This is the about section. Add your content here.</p>
+    </section>
+
+    <section id="recipes">
+        <h1>Recipes</h1>
+        <ul>
+            <!-- Loop through recipes -->
+            {% for recipe in recipes %}
+                <li>
+                    <h2>{{ recipe.title }}</h2>
+                    <p>{{ recipe.ingredients }}</p>
+                    <p>{{ recipe.instructions }}</p>
+                    <a href="/update/{{ recipe.id }}">Edit</a>
+                    <form action="/delete/{{ recipe.id }}" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="add-recipe">
+        <h1>Add New Recipe</h1>
+        <form action="/add" method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.title.label }} {{ form.title() }}<br>
+            {{ form.ingredients.label }} {{ form.ingredients() }}<br>
+            {{ form.instructions.label }} {{ form.instructions() }}<br>
+            {{ form.submit() }}
+        </form>
+    </section>
+
+    <section id="comments">
+        <h1>Leave a Comment</h1>
+        <form action="/comment" method="POST">
+            <textarea name="comment" placeholder="Your comment..."></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+        <ul>
+            <!-- Loop through comments -->
+            {% for comment in comments %}
+                <li>{{ comment.content }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</body>
+</html>
+
