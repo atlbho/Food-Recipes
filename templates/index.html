@@ -59,21 +59,27 @@
                 const comments = await commentsResponse.json();
 
                 const table = document.getElementById('recipeTable');
-                table.innerHTML = '<tr><th>ID</th><th>Name</th><th>Recipes</th><th>Comments</th></tr>';
+                table.innerHTML = '';
 
                 recipes.forEach(recipe => {
                     const row = table.insertRow();
                     row.insertCell(0).innerText = recipe.id;
                     row.insertCell(1).innerText = recipe.name;
                     row.insertCell(2).innerText = recipe.description;
-                    row.insertCell(3).innerText = recipe.image;
+                    // Insert image
+                    const imageCell = row.insertCell(3);
+                    const img = document.createElement('img');
+                    img.src = recipe.image;
+                    img.alt = `Image of ${recipe.name}`;
+                    img.className = 'small-img';
+                    imageCell.appendChild(img);
                     const commentCell = row.insertCell(3);
 
                     // Filter comments for the current recipe
                     const recipeComments = comments.filter(comment => comment.recipe_id === recipe.id);
                     recipeComments.forEach(comment => {
                         const commentDiv = document.createElement('div');
-                        commentDiv.innerHTML = `Comment ID: ${comment.comment_id}, Comment: ${comment.comment} `;
+                        commentDiv.innerHTML = ` Comment: ${comment.comment} `;
                         const deleteButton = document.createElement('button');
                         deleteButton.innerText = 'Delete';
                         deleteButton.onclick = () => deleteComment(comment.comment_id);
