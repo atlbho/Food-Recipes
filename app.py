@@ -28,7 +28,8 @@ def api():
     db = get_db()
     cursor = db.execute('SELECT * FROM recipes')
     rows = cursor.fetchall()
-    result = [{'id': row[0], 'name': row[1], 'description': row[2]} for row in rows]
+    result = [{'id': row[0], 'name': row[1], 'description': row[2] , 'image': row[3]} for row in rows]
+
     return jsonify(result)
 
 @app.route('/comments')
@@ -36,7 +37,6 @@ def comments():
     db = get_db()
     cursor = db.execute('SELECT * FROM comments')
     rows = cursor.fetchall()
-    # Convert rows to list of dictionaries
     result = [{'comment_id': row[0], 'comment': row[1], 'recipe_id': row[2]} for row in rows]
     return jsonify(result)
 

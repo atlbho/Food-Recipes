@@ -82,9 +82,9 @@ section nav .search-bar button:hover {
     text-align: center;
     position: relative;
 }
-
+ 
 .responsive-image {
-    width: 100%;
+    width: 50%;
     height: 600px; /* Set the desired height */
     object-fit: cover; /* Ensure the image covers the container */
 }

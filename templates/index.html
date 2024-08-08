@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Recipe</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
     <section id="home">
         <nav>
             <div class="logo">
-                <img src="https://dcassetcdn.com/design_img/10150/25224/25224_294121_10150_image.jpg" alt="Lamp" width="150" height="150">
+                <img src="{{ url_for('static', filename='logo.JPG') }}" alt="Logo">
             </div>
             <ul>
                 <li><a href="#home">Home</a></li>
@@ -23,16 +22,22 @@
                 <button type="submit">Search</button>
             </form>
         </nav>
+        
         <div id="header-img">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk6C5k9sOLRHlJQHTH629SxJ6DrPaui86iXA&s" class="responsive-image" alt="Grilled Chicken Salad">
+            <img src="{{ url_for('static', filename='homepic.webp') }}" class= "reponsive-image"alt="Grilled Chicken Salad">
             <div class="welcome-text">Food Recipe</div>
         </div>
     </section>
+
     <section id="about">
         <h1>About</h1>
         <p>This is the about section. Add your content here.</p>
     </section>
+
     <section id="recipes">
+        <h1>Recipes</h1>
+        
+        
         <style>
             table {
                 width: 100%;
@@ -60,7 +65,8 @@
                     const row = table.insertRow();
                     row.insertCell(0).innerText = recipe.id;
                     row.insertCell(1).innerText = recipe.name;
-                    row.insertCell(2).innerText = recipe.description
+                    row.insertCell(2).innerText = recipe.description;
+                    row.insertCell(3).innerText = recipe.image;
                     const commentCell = row.insertCell(3);
 
                     // Filter comments for the current recipe
@@ -111,12 +117,9 @@
 
             document.addEventListener('DOMContentLoaded', fetchRecipes);
         </script>
-    </head>
-    <body>
-        <h1>Recipes</h1>
         <table id="recipeTable">
         </table>
-    </body>
     </section>
+
 </body>
 </html>
