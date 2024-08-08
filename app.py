@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, request, redirect, url_for
+from flask import Flask, g, render_template, request, redirect, url_for, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -23,6 +23,66 @@ def index():
     rows = cursor.fetchall()
     return render_template('index.html', rows=rows)
 
+@app.route('/api')
+def api():
+    db = get_db()
+    cursor = db.execute('SELECT * FROM recipes')
+    rows = cursor.fetchall()
+    result = [{'id': row[0], 'name': row[1], 'description': row[2]} for row in rows]
+    return jsonify(result)
+
+@app.route('/comments')
+def comments():
+    db = get_db()
+    cursor = db.execute('SELECT * FROM comments')
+    rows = cursor.fetchall()
+    # Convert rows to list of dictionaries
+    result = [{'comment_id': row[0], 'comment': row[1], 'recipe_id': row[2]} for row in rows]
+    return jsonify(result)
+
+@app.route('/add-comment', methods=['POST'])
+def add_comment():
+    try:
+        data = request.get_json()
+        comment = data["comment"]
+        recipeId = data["id"]
+
+        print(comment)
+        print(recipeId)
+
+        conn = get_db()
+        cursor = conn.cursor()     
+        cursor.execute('''
+        INSERT INTO comments (comment, recipe_id) 
+        VALUES (?, ?)
+        ''', (comment, recipeId))
+        
+        conn.commit()
+        
+        return "Comment added successfully"
+    except Exception as e:
+        return f"error occurred: {e}"
+@app.route('/delete-comment', methods=['DELETE'])
+def delete_comment():
+    try:
+        data = request.get_json()
+        comment_id = data["id"]
+        conn = get_db()
+        cursor = conn.cursor()
+        
+        cursor.execute('''
+        DELETE FROM comments 
+        WHERE comment_id = ?
+        ''', (comment_id,))
+        
+        conn.commit()
+        
+        return "Comment deleted successfully"
+    except Exception as e:
+        return f"error occurred: {e}"
+    
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
-

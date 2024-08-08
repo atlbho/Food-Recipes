@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+section {
+    width: 100%;
+    padding: 20px;
+}
+
+section nav {
+    display: flex;
+    justify-content: space-between; /* Changed from space-around to space-between */
+    align-items: center;
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 10px 20px; /* Added for spacing */
+}
+
+section nav .logo img {
+    width: 100px;
+    cursor: pointer;
+    margin: 7px 0;
+}
+
+section nav ul {
+    list-style: none;
+    display: flex; /* Added to align items horizontally */
+}
+
+section nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+section nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 17px;
+}
+
+section nav .search-bar {
+    display: flex; /* Added to align items horizontally */
+    align-items: center;
+}
+
+section nav .search-bar input {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px; /* Rounded corners on the left side */
+}
+
+section nav .search-bar button {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-left: none; /* Remove border between input and button */
+    border-radius: 0 5px 5px 0; /* Rounded corners on the right side */
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+section nav .search-bar button:hover {
+    background-color: #555;
+}
+
+#header-img {
+    margin-left: 20;
+    margin-right: 20;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.responsive-image {
+    width: 100%;
+    height: 600px; /* Set the desired height */
+    object-fit: cover; /* Ensure the image covers the container */
+}
+
+.welcome-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 5em;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: cursive;
+}
+
+#about, #recipes, #add-recipe, #comments {
+    margin: 50px 0;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #555;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

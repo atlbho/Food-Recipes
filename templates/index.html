@@ -1,14 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SQLite with Flask</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Recipe</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Records</h1>
-    <ul>
-        {% for row in rows %}
-            <li>{{ row[1] }} : ({{ row[2] }})</li>
-        {% endfor %}
-    </ul>
+    <section id="home">
+        <nav>
+            <div class="logo">
+                <img src="https://dcassetcdn.com/design_img/10150/25224/25224_294121_10150_image.jpg" alt="Lamp" width="150" height="150">
+            </div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#recipes">Recipes</a></li>
+            </ul>
+            <form class="search-bar" action="/search" method="GET">
+                <input type="text" name="query" placeholder="Search recipes...">
+                <button type="submit">Search</button>
+            </form>
+        </nav>
+        <div id="header-img">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk6C5k9sOLRHlJQHTH629SxJ6DrPaui86iXA&s" class="responsive-image" alt="Grilled Chicken Salad">
+            <div class="welcome-text">Food Recipe</div>
+        </div>
+    </section>
+    <section id="about">
+        <h1>About</h1>
+        <p>This is the about section. Add your content here.</p>
+    </section>
+    <section id="recipes">
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 1px solid black;
+            }
+            th, td {
+                padding: 15px;
+                text-align: left;
+            }
+        </style>
+        <script>
+            async function fetchRecipes() {
+                const response = await fetch('/api');
+                const recipes = await response.json();
+                const commentsResponse = await fetch('/comments');
+                const comments = await commentsResponse.json();
+
+                const table = document.getElementById('recipeTable');
+                table.innerHTML = '<tr><th>ID</th><th>Name</th><th>Recipes</th><th>Comments</th></tr>';
+
+                recipes.forEach(recipe => {
+                    const row = table.insertRow();
+                    row.insertCell(0).innerText = recipe.id;
+                    row.insertCell(1).innerText = recipe.name;
+                    row.insertCell(2).innerText = recipe.description
+                    const commentCell = row.insertCell(3);
+
+                    // Filter comments for the current recipe
+                    const recipeComments = comments.filter(comment => comment.recipe_id === recipe.id);
+                    recipeComments.forEach(comment => {
+                        const commentDiv = document.createElement('div');
+                        commentDiv.innerHTML = `Comment ID: ${comment.comment_id}, Comment: ${comment.comment} `;
+                        const deleteButton = document.createElement('button');
+                        deleteButton.innerText = 'Delete';
+                        deleteButton.onclick = () => deleteComment(comment.comment_id);
+                        commentDiv.appendChild(deleteButton);
+                        commentCell.appendChild(commentDiv);
+                    });
+
+                    const inputDiv = document.createElement('div');
+                    inputDiv.innerHTML = `<input type="text" placeholder="Add a comment" id="comment-${recipe.id}">
+                                        <button onclick="addComment(${recipe.id})">Post</button>`;
+                    commentCell.appendChild(inputDiv);
+                });
+            }
+
+            async function addComment(recipeId) {
+                const comment = document.getElementById(`comment-${recipeId}`).value;
+                const response = await fetch('/add-comment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ comment, id: recipeId }),
+                });
+                const result = await response.text();
+                alert(result);
+                fetchRecipes();
+            }
+
+            async function deleteComment(commentId) {
+                const response = await fetch('/delete-comment', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: commentId }),
+                });
+                const result = await response.text();
+                alert(result);
+                fetchRecipes();
+            }
+
+            document.addEventListener('DOMContentLoaded', fetchRecipes);
+        </script>
+    </head>
+    <body>
+        <h1>Recipes</h1>
+        <table id="recipeTable">
+        </table>
+    </body>
+    </section>
 </body>
 </html>
